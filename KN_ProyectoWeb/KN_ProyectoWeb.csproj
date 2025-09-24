@@ -137,6 +137,7 @@
     <Content Include="StaticFiles\css\theme-default.css" />
     <Content Include="StaticFiles\fonts\boxicons\boxicons.svg" />
     <Content Include="StaticFiles\img\1.png" />
+    <Content Include="StaticFiles\img\favicon.ico" />
     <Content Include="StaticFiles\js\bootstrap.js" />
     <Content Include="StaticFiles\js\config.js" />
     <Content Include="StaticFiles\js\helpers.js" />
