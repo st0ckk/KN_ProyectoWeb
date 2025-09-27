@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+
+<div class="authentication-wrapper authentication-basic container-p-y">
+    <div class="authentication-inner py-4">
+        <!-- Forgot Password -->
+        <div class="card">
+            <div class="card-body">
+                <!-- Logo -->
+                <div class="app-brand justify-content-center">
+                    <a href="index.html" class="app-brand-link gap-2">
+                        <img src="~/StaticFiles/img/favicon.ico" />
+                        <span class="app-brand-text demo text-body fw-bolder">Recuperar Acceso</span>
+                    </a>
+                </div>
+                <!-- /Logo -->
+                <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo Electronico</label>
+                        <input type="email"
+                               class="form-control"
+                               id="email"
+                               name="email"
+                               autofocus />
+                    </div>
+                    <button class="btn btn-primary d-grid w-100">Procesar</button>
+                </form>
+                <div class="text-center">
+                    <a href="@Url.Action("Index","Home")" class="d-flex align-items-center justify-content-center">
+                        Regresar al inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /Forgot Password -->
+    </div>
+</div>
+
