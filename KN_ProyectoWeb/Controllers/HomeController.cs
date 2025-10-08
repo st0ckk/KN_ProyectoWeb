@@ -83,10 +83,20 @@ namespace KN_ProyectoWeb.Controllers
         [HttpPost]
         public ActionResult RecuperarAcceso(Usuario usuario)
         {
-            return View();
-            /* validar que el usuario exista
-             generar clave temp
-            enviar clave temp*/
+            using (var context = new BD_KNEntities())
+            {
+                //Se valida si el usuario ya existe
+                var resultadoConsulta = context.tbUsuario.Where(x => x.CorreoElectronico == usuario.CorreoElectronico).FirstOrDefault();
+
+                //Si existe se manda a recupear el acceso
+                if (resultadoConsulta != null)
+                {
+
+                }
+
+                ViewBag.Mensaje = "La información no se ha podido reestablecer";
+                return View();
+            }
         }
         #endregion
 

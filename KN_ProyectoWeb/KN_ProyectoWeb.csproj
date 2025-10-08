@@ -186,6 +186,7 @@
     <Content Include="StaticFiles\js\config.js" />
     <Content Include="StaticFiles\js\helpers.js" />
     <Content Include="StaticFiles\js\IniciarSesion.js" />
+    <Content Include="StaticFiles\js\RecuperarAcceso.js" />
     <Content Include="StaticFiles\js\Registro.js" />
     <Content Include="StaticFiles\js\jquery.js" />
     <Content Include="StaticFiles\js\main.js" />
