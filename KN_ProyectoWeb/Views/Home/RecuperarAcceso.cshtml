@@ -1,4 +1,4 @@
-﻿
+﻿@model KN_ProyectoWeb.Models.Usuario
 @{
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
@@ -16,17 +16,19 @@
                     </a>
                 </div>
                 <!-- /Logo -->
-                <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo Electronico</label>
-                        <input type="email"
-                               class="form-control"
-                               id="email"
-                               name="email"
-                               autofocus />
-                    </div>
-                    <button class="btn btn-primary d-grid w-100">Procesar</button>
-                </form>
+                @using (Html.BeginForm("RecuperarAcceso", "Home"))
+                {
+
+
+                    <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo Electronico</label>
+                           
+                        </div>
+                        <button class="btn btn-primary d-grid w-100">Procesar</button>
+                    </form>
+
+                }
                 <div class="text-center">
                     <a href="@Url.Action("Index","Home")" class="d-flex align-items-center justify-content-center">
                         Regresar al inicio

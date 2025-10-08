@@ -17,19 +17,21 @@
                     </a>
                 </div>
                 <!-- /Logo -->
+                @if (ViewBag.Mensaje != null)
+                {
 
+                    <div class="alert alert-warning" role="alert">
+                        @ViewBag.Mensaje
+                    </div>
+                }
                 @using (Html.BeginForm("Index", "Home"))
                 {
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo electronico</label>
 
-                        @Html.TextBoxFor(x => x.CorreoElectronico, new { @class = "form-control" })
+                        @Html.TextBoxFor(x => x.CorreoElectronico, new { @class = "form-control", @type = "email" })
 
-                        <input type="text"
-                               class="form-control"
-                               id="CorreoElectronico"
-                               name="CorreoElectronico" />
                     </div>
                     <div class="mb-3 form-password-toggle">
                         <div class="d-flex justify-content-between">
@@ -39,25 +41,14 @@
                             </a>
                         </div>
                         <div class="input-group input-group-merge">
-                            <input type="password"
-                                   id="Contrasenia"
-                                   class="form-control"
-                                   name="Contrasenia"
-                                   aria-describedby="password" />
 
-                            @Html.TextBoxFor(x => x.CorreoElectronico, new { @class = "form-control", @type="password"})
+                            @Html.TextBoxFor(x => x.Contrasenia, new { @class = "form-control", @type = "password" })
 
                             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="remember-me" />
-                            <label class="form-check-label" for="remember-me"> Remember Me </label>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                        <button class="btn btn-primary d-grid w-100" type="submit">Procesar</button>
                     </div>
 
                 }

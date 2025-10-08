@@ -1,10 +1,14 @@
-﻿using KN_ProyectoWeb.Models;
+﻿using KN_ProyectoWeb.EF;
+using KN_ProyectoWeb.Models;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace KN_ProyectoWeb.Controllers
 {
     public class HomeController : Controller
     {
+
+        #region Inicio sesion
         [HttpGet]
         public ActionResult Index()
         {
@@ -14,9 +18,24 @@ namespace KN_ProyectoWeb.Controllers
         [HttpPost]
         public ActionResult Index(Usuario usuario)
         {
-            return RedirectToAction("Principal","Home");
-        }
+            using (var context = new BD_KNEntities())
+            {
+                //var resultado = context.tbUsuario
+                //    .Where(x => x.CorreoElectronico == usuario.CorreoElectronico && x.Contrasenia == usuario.Contrasenia && x.Estado == true).FirstOrDefault();
 
+                var resultado = context.ValidarUsuarios(usuario.CorreoElectronico, usuario.Contrasenia).FirstOrDefault();
+
+                if (resultado != null)
+                {
+                    return RedirectToAction("Principal", "Home");
+                }
+                ViewBag.Mensaje = "La informacion es incorrecta.";
+                return View();
+            }
+        }
+        #endregion
+
+        #region Registro
         [HttpGet]
         public ActionResult Registro()
         {
@@ -25,8 +44,37 @@ namespace KN_ProyectoWeb.Controllers
         [HttpPost]
         public ActionResult Registro(Usuario usuario)
         {
+            using (var context = new BD_KNEntities())
+            {
+                //var nuevoUsuario = new tbUsuario
+                //{
+                //    Identificacion = usuario.Identificacion,
+                //    Nombre = usuario.Nombre,
+                //    CorreoElectronico = usuario.CorreoElectronico,
+                //    Contrasenia = usuario.Contrasenia,
+                //    ConsecutivoPerfil = 2, 
+                //    Estado = true
+                //};
+
+                //context.tbUsuario.Add(nuevoUsuario);
+                //context.SaveChanges();
+
+                var resultado = context.CrearUsuarios(usuario.Identificacion, usuario.Nombre, usuario.CorreoElectronico, usuario.Contrasenia);
+                if (resultado > 0)
+                {
+                    return RedirectToAction("Index", "Home");
+
+                }
+                else
+                {
+                    ViewBag.Mensaje = "Error al registrar el usuario.";
+                }
+            }
             return View();
         }
+        #endregion
+
+        #region Recuperar acceso
         [HttpGet]
         public ActionResult RecuperarAcceso()
         {
@@ -40,6 +88,8 @@ namespace KN_ProyectoWeb.Controllers
              generar clave temp
             enviar clave temp*/
         }
+        #endregion
+
         public ActionResult Principal()
         {
             return View();
