@@ -40,25 +40,29 @@ namespace KN_ProyectoWeb.Services
             var correoSMTP = ConfigurationManager.AppSettings["CorreoSMTP"];
             var contraseniaSMTP = ConfigurationManager.AppSettings["ContraseniaSMTP"];
 
-            var smtp = new SmtpClient("smtp.office365.com")
+            if (contraseniaSMTP != string.Empty)
             {
-                Port = 587,
-                Credentials = new NetworkCredential(correoSMTP, contraseniaSMTP),
-                EnableSsl = true
-            };
 
-            var mensaje = new MailMessage
-            {
-                From = new MailAddress("urboi123qtz@gmail.com"),
-                Subject = asunto,
-                Body = contenido,
-                IsBodyHtml = true
-            };
+                var smtp = new SmtpClient("smtp.office365.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential(correoSMTP, contraseniaSMTP),
+                    EnableSsl = true
+                };
 
-            mensaje.To.Add(destinatario);
+                var mensaje = new MailMessage
+                {
+                    From = new MailAddress("urboi123qtz@gmail.com"),
+                    Subject = asunto,
+                    Body = contenido,
+                    IsBodyHtml = true
+                };
 
-            smtp.Send(mensaje);
+                mensaje.To.Add(destinatario);
+
+                smtp.Send(mensaje);
+            }
+
         }
-
     }
 }

@@ -2,13 +2,8 @@
 using KN_ProyectoWeb.Models;
 using KN_ProyectoWeb.Services;
 using System;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web.Mvc;
 
 namespace KN_ProyectoWeb.Controllers
@@ -29,13 +24,15 @@ namespace KN_ProyectoWeb.Controllers
         {
             using (var context = new BD_KNEntities())
             {
-                //var resultado = context.tbUsuario
-                //    .Where(x => x.CorreoElectronico == usuario.CorreoElectronico && x.Contrasenia == usuario.Contrasenia && x.Estado == true).FirstOrDefault();
+                var resultado = context.tbUsuario
+                    .Where(x => x.CorreoElectronico == usuario.CorreoElectronico && x.Contrasenia == usuario.Contrasenia && x.Estado == true).FirstOrDefault();
 
-                var resultado = context.ValidarUsuarios(usuario.CorreoElectronico, usuario.Contrasenia).FirstOrDefault();
+                //var resultado = context.ValidarUsuarios(usuario.CorreoElectronico, usuario.Contrasenia).FirstOrDefault();
 
                 if (resultado != null)
                 {
+                    Session["NombreUsuario"] = resultado.Nombre;
+                    Session["PerfilUsuario"] = resultado.tbPerfil.Nombre;
                     return RedirectToAction("Principal", "Home");
                 }
                 ViewBag.Mensaje = "La informacion es incorrecta.";
@@ -145,10 +142,20 @@ namespace KN_ProyectoWeb.Controllers
         #endregion
 
         public ActionResult Principal()
-        { return View(); }
+        { 
+            
+            return View(); 
+        
+        }
 
-       
-
+        #region Cerrar Sesion
+        [HttpGet]
+        public ActionResult CerrarSesion()
+        {
+            Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
+        #endregion
     }
 }
 
