@@ -1,12 +1,21 @@
 ﻿using KN_ProyectoWeb.EF;
 using KN_ProyectoWeb.Models;
+using KN_ProyectoWeb.Services;
+using System;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Mvc;
 
 namespace KN_ProyectoWeb.Controllers
 {
     public class HomeController : Controller
     {
+        Utilitarios utilitarios = new Utilitarios();
 
         #region Inicio sesion
         [HttpGet]
@@ -91,6 +100,41 @@ namespace KN_ProyectoWeb.Controllers
                 //Si existe se manda a recupear el acceso
                 if (resultadoConsulta != null)
                 {
+                    var NewContrasenia = utilitarios.GenerarContrasenia();
+
+                    // actualizar la contraseña
+
+                    resultadoConsulta.Contrasenia = NewContrasenia;
+
+                    // nueva contraseña
+                    var resultadoActualizacion = context.SaveChanges();
+
+                    //envia correo
+                    if (resultadoActualizacion > 0)
+                    {
+                        //StringBuilder mensaje = new StringBuilder();
+                        //mensaje.AppendLine("Estimado(a) " + resultadoConsulta.Nombre + "<br>");
+                        //mensaje.AppendLine("Se ha generado una consulta para reestablecer su contrasenia" + "<br><br>");
+                        //mensaje.AppendLine("Su nueva contrasenia es: <b> " + NewContrasenia + "</b><br><br>");
+                        //mensaje.AppendLine("Procure realizar el cambio de su contrasenia una vez ingrese al sistema.");
+                        //mensaje.AppendLine("No responda a este mensaje, Muchas gracias");
+
+                        string projectRoot = AppDomain.CurrentDomain.BaseDirectory;
+                        string path = Path.Combine(projectRoot, "TemplateRecuperacion.html");
+
+                        // Leer todo el HTML
+                        string htmlTemplate = System.IO.File.ReadAllText(path);
+
+                        // Reemplazar placeholders
+                        string mensaje = htmlTemplate
+                            .Replace("{{Nombre}}", resultadoConsulta.Nombre)
+                            .Replace("{{Contrasena}}", NewContrasenia);
+
+                        //Enviar correo
+
+                        utilitarios.EnviarCorreo("Recuperación de contraseña", NewContrasenia, resultadoConsulta.CorreoElectronico);
+                        return RedirectToAction("index", "Home");
+                    }
 
                 }
 
@@ -101,8 +145,10 @@ namespace KN_ProyectoWeb.Controllers
         #endregion
 
         public ActionResult Principal()
-        {
-            return View();
-        }
+        { return View(); }
+
+       
+
     }
 }
+
